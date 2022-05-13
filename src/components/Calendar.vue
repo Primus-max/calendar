@@ -24,21 +24,21 @@
             </div>
         </div>
 
-        <div class="flex flex-wrap align-items-center">
-            <p v-for="i in dayWeek" class="calendar-item text-center">{{ i }}</p>
-            <div class="calendar-item text-center"
-                 v-for="i in daysMonth">{{i}}
+        <div class="flex flex-wrap ">
+            <p v-for="i in dayWeek" class="calendar-item h-1rem my-1 mx-1 text-center">{{ i }}</p>
+            <div role="button" class="calendar-item flex align-items-center my-1 mx-1 hover:bg-blue-100 active:bg-blue-50 align-content-center justify-content-between px-3  flex-row  shadow-3 h-5rem text-2xl text-color"
+                 v-for="i in daysMonth">
+                <Button icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
+                {{i}}
             </div>
         </div>
     </div>
-
-    <button @click="test">test</button>
 </template>
 
 <script>
-
-
+    import Button from 'primevue/button'
     export default {
+        components: {Button},
         data() {
             return {
                 currentDate: new Date(),
@@ -107,8 +107,10 @@
 
 <style scoped>
     .calendar-item {
-        width: calc(100% / 7)
+        width: calc(90% / 7);
     }
+
+
 
     .card {
         width: 80%;
