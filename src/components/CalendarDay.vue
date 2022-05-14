@@ -1,7 +1,5 @@
 <template>
     <div class="flex flex-wrap">
-        <!--        <p v-for="dayW in daysWeek" class="calendar-item h-1rem my-1 mx-1 text-center">{{ dayW }}</p>-->
-
         <div class="calendar-item flex align-items-center my-1 mx-1   align-content-center justify-content-between px-3  flex-row   text-2xl text-color"
 
              v-for="day in daysMonth"
@@ -21,11 +19,11 @@
 
 <script>
     import Button from 'primevue/button'
-    import {useStore} from "../../store/store";
+    import {useStore} from "../../store/store"
+    import {mapWritableState} from 'pinia'
 
     export default {
         components: {Button},
-        props: ['date'],
         data() {
             return {
                 daysMonth: [],
@@ -35,23 +33,27 @@
             this.getFirstDayInWeek()
         },
         watch: {
-            date() {
+            currentDate() {
                 this.getFirstDayInWeek()
             }
+        },
+        computed:{
+            ...mapWritableState(useStore, ['currentDate'])
         },
 
         methods: {
             getFirstDayInWeek() {
-                const month = this.date.getMonth()
-                const year = this.date.getFullYear()
+                const month = this.currentDate.getMonth()
+                const year = this.currentDate.getFullYear()
                 const getDaysOfMonth = new Date(year, month + 1, 0).getDate()
                 const getFirsWeekDay = new Date(year, month, 1).getUTCDay()
                 this.daysMonth = []
 
                 for (let i = getFirsWeekDay; i < getDaysOfMonth + getFirsWeekDay; i++) {
                     this.daysMonth[i] = i + 1 - getFirsWeekDay
+                    console.log(this.currentDate)
                 }
-            },
+            }
         },
     }
 </script>

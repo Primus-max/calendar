@@ -9,14 +9,14 @@
 </template>
 
 <script>
-    import { mapWritableState } from 'pinia'
+    import {mapWritableState} from 'pinia'
     import {useStore} from "../../store/store"
 
     export default {
-        computed:{
+        computed: {
             ...mapWritableState(useStore, ['currentDate'])
         },
-        methods:{
+        methods: {
             getYear() {
                 return this.currentDate.getFullYear()
             },
@@ -24,13 +24,15 @@
                 const date = new Date(this.currentDate)
                 date.setFullYear(date.getFullYear() - diff)
                 this.currentDate = date
+                console.log(this.currentDate)
             },
             prevYear() {
                 this.selectYear(1)
             },
             nextYear() {
                 this.selectYear(-1)
-            },        }
+            },
+        }
 
     }
 </script>
