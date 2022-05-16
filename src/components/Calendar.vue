@@ -18,15 +18,9 @@
     import CalendarSelectYear from "@/components/CalendarSelectYear"
     import CalendarDay from "@/components/CalendarDay"
     import CalendarDayWeek from "@/components/CalendarDayWeek"
-    // import {mapWritableState} from 'pinia'
-    // import {useStore} from "../../store/store";
 
     export default {
         components: {CalendarDay, CalendarDayWeek, CalendarSelectMonth, CalendarSelectYear},
-
-        // computed: {
-        //     ...mapWritableState(useStore,  ['currentDate'])
-        // },
     }
 </script>
 

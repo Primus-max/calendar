@@ -1,31 +1,126 @@
 <template>
     <div class="flex flex-wrap">
-        <div class="calendar-item flex align-items-center my-1 mx-1   align-content-center justify-content-between px-3  flex-row   text-2xl text-color"
+        <div class="calendar-item flex align-items-center my-1 mx-1 align-content-center justify-content-between px-3  flex-row   text-2xl text-color"
 
              v-for="day in daysMonth"
+             :key="day"
              :class="{
                 'shadow-3 h-5rem': day,
-                ' hover:bg-blue-100': day
+                'hover:bg-blue-100': day,
+                'bg-cyan-200': day === this.currentDate.getDate(),
              }"
         >
             <template v-if="day">
-                <Button icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
+                <Button @click="openModal" icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
                 {{day}}
             </template>
         </div>
-
     </div>
+
+    <div class="add-task-modal">
+        <Dialog
+                v-model:visible="isDisplayModal"
+                :modal="true"
+                :dismissableMask="true"
+                :style="{
+                            width: '55%'
+                        }"
+        >
+
+            <template #header>
+                <h3>Новая задача</h3>
+            </template>
+
+            <form @click.prevent>
+                <div class="flex flex-column p-input-filled w-11">
+
+                        <span class="flex mb-3">
+                           <label for="title" class="mr-3 task-title">Название задачи</label>
+        	                <Textarea
+                                    :autoResize="true"
+                                    id="title"
+                                    type="text"
+                                    rows="1"
+                                    cols="44"
+                                    class="p-inputtext-sm"
+                                    v-model="taskTitle"
+                                    autofocus
+                            />
+                        </span>
+
+                    <span class="flex mb-3">
+                            <label for="description" class="mr-3 task-title">Описание задачи</label>
+                            <Textarea
+                                    id="description"
+                                    :autoResize="true"
+                                    rows="2"
+                                    cols="30"
+                                    type="text"
+                                    class="p-inputtext-lg"
+                                    v-model="taskDescription"
+                            />
+                        </span>
+
+                    <span class="flex mb-3">
+                            <label for="beginDate" class="mr-3 task-title">Начало задачи</label>
+                                <span class="flex flex-column">
+                            <Calendar
+                                    class="mb-3"
+                                    id="beginDate"
+                                    v-model="taskDate"
+                                    :showIcon="true"
+                                    icon="pi pi-calendar"
+                                    placeholder="дата"
+                            />
+                            <Calendar
+                                    v-model="taskTime"
+                                    :showIcon="true"
+                                    icon="pi pi-clock"
+                                    placeholder="время"
+                                    :timeOnly="true"
+                            />
+                                </span>
+                        </span>
+
+                </div>
+            </form>
+
+
+            <template #footer>
+                <Button label="отменить" icon="pi pi-times" class="p-button-text"/>
+                <Button label="записать" icon="pi pi-check" class="p-button-success"/>
+            </template>
+
+        </Dialog>
+    </div>
+
+
 </template>
 
 <script>
     import Button from 'primevue/button'
+
+    import Dialog from 'primevue/dialog'
+    import InputText from 'primevue/inputtext'
+    import Calendar from 'primevue/calendar'
+    import Textarea from 'primevue/textarea'
+
     import {useStore} from "../../store/store"
     import {mapWritableState} from 'pinia'
+    import { mapState } from 'pinia'
+
 
     export default {
-        components: {Button},
+        components: {Button, Dialog, InputText, Textarea, Calendar},
+        props:['day'],
+
         data() {
             return {
+                taskTitle: '',
+                taskDescription: '',
+                taskDate: null,
+                taskTime: null,
+                isDisplayModal: false,
                 daysMonth: [],
             }
         },
@@ -37,8 +132,9 @@
                 this.getFirstDayInWeek()
             }
         },
-        computed:{
-            ...mapWritableState(useStore, ['currentDate'])
+        computed: {
+            ...mapWritableState(useStore, ['currentDate']),
+            ...mapState(useStore, ['addNewTask'])
         },
 
         methods: {
@@ -51,9 +147,29 @@
 
                 for (let i = getFirsWeekDay; i < getDaysOfMonth + getFirsWeekDay; i++) {
                     this.daysMonth[i] = i + 1 - getFirsWeekDay
-                    console.log(this.currentDate)
+                    // this.daysMonth[i] = new Date(year, month, (i + 1 - getFirsWeekDay))
                 }
-            }
+            },
+
+            // getClickedDay(event){
+            //     this.daysMonth.find(d => {
+            //         if (event.type==='click'){
+            //             console.log(d)
+            //         }
+            //
+            //     })
+            // },
+
+            openModal(event) {
+                this.isDisplayModal = true;
+                // this.getClickedDay(event)
+                console.log(this.addNewTask())
+            },
+            // closeModal() {
+            //     this.isDisplayModal = false;
+            // },
+
+
         },
     }
 </script>
@@ -61,5 +177,9 @@
 <style scoped>
     .calendar-item {
         width: calc(90% / 7);
+    }
+
+    .task-title {
+        width: 150px;
     }
 </style>

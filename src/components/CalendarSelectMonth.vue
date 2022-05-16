@@ -46,24 +46,16 @@
 </script>
 
 <style scoped>
-    /*.choose-section__month {*/
-    /*    width: 20rem;*/
-    /*}*/
-
     .choose-section__month {
         width: 20rem;
     }
-
     .choose-section__month-text {
         width: 7rem;
     }
-
-
     .choose-btn {
         margin: 0 25px;
         border: none;
         background: none;
         cursor: pointer;
     }
-
 </style>

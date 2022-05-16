@@ -2,18 +2,13 @@ function assertEqusld(actual, expected) {
   console.assert(actual === expected, 'Закралась ошибка, проверьте ваш код')
 }
 
-function n(word, test) {
-  let result = 0
+function timeOfZone() {
+  const date = new Date()
 
-  for (let i of word) {
-    if (i === test) {
-      result += 1
-    }
-  }
-  return result
-  // console.log(word.includes(test))
+  let result = date.getTimezoneOffset()
+  console.log(result)
 }
-
+timeOfZone()
 
 assertEqusld(n('Hello', 'l'), 2)
 assertEqusld(n('foo', 'n'), 0)
