@@ -11,7 +11,7 @@
              }"
         >
             <template v-if="day">
-                <Button @click="openModal" icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
+                <Button @click="openModal" v-tooltip="'Добавить задачу'" icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
                 {{day}}
             </template>
         </div>
@@ -87,7 +87,7 @@
 
 
             <template #footer>
-                <Button label="отменить" icon="pi pi-times" class="p-button-text"/>
+                <Button @click="closeModal" label="отчистить" icon="pi pi-times" class="p-button-text"/>
                 <Button @click="createNewTask" type="submit" label="записать" icon="pi pi-check"
                         class="p-button-success"/>
             </template>
@@ -163,17 +163,26 @@
                 }
                 this.addNewTask(this.newTask)
 
+                this.resetForm()
+
+
+                this.isDisplayModal = false;
+            },
+
+            resetForm(){
                 this.taskTitle = ''
                 this.taskDescription = ''
                 this.taskDate = null
                 this.taskTime = null
-
-                this.isDisplayModal = false;
             },
 
             openModal() {
                 this.isDisplayModal = true;
             },
+
+            closeModal(){
+                this.resetForm()
+            }
 
         },
     }

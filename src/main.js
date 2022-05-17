@@ -7,10 +7,11 @@ import {createApp} from 'vue';
 import App from './App.vue';
 import PrimeVue from 'primevue/config';
 import {createPinia} from "pinia";
+import Tooltip from 'primevue/tooltip';
 
 const app = createApp(App);
 
-
+app.directive('tooltip', Tooltip);
 app.use(PrimeVue);
 app.use(createPinia())
 app.mount('#app');

@@ -24,7 +24,7 @@
                 const date = new Date(this.currentDate)
                 date.setFullYear(date.getFullYear() - diff)
                 this.currentDate = date
-                console.log(this.currentDate)
+               // console.log(this.currentDate)
             },
             prevYear() {
                 this.selectYear(1)
