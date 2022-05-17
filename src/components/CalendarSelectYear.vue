@@ -39,7 +39,7 @@
 
 <style scoped>
     .choose-btn {
-        margin: 0 25px;
+        margin: 0 12px;
         border: none;
         background: none;
         cursor: pointer;

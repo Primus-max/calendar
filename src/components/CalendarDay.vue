@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-wrap">
-        <div class="calendar-item flex align-items-center my-1 mx-1 align-content-center justify-content-between px-3  flex-row   text-2xl text-color"
+        <div class="calendar-item flex align-items-center my-1 mx-1 align-content-center justify-content-between pr-3  flex-row   text-2xl text-color"
 
              v-for="day in daysMonth"
              :key="day"
@@ -11,7 +11,15 @@
              }"
         >
             <template v-if="day">
-                <Button @click="openModal" v-tooltip="'Добавить задачу'" icon="pi pi-plus-circle" class="p-button-rounded p-button-text"/>
+                <div class="flex flex-column align-items-center">
+                    <Button @click="openModal" v-tooltip="'Добавить задачу'" icon="pi pi-plus-circle"
+                            class="p-button-rounded p-button-text align-content-end p-0"/>
+                    <button label="3" class="btn"
+                            v-tooltip="'Задачи на этот день'"
+                    >
+                       2
+                        </button>
+                </div>
                 {{day}}
             </template>
         </div>
@@ -94,17 +102,16 @@
 
         </Dialog>
     </div>
-
-
+    <Toast/>
 </template>
 
 <script>
     import Button from 'primevue/button'
-
     import Dialog from 'primevue/dialog'
     import InputText from 'primevue/inputtext'
     import Calendar from 'primevue/calendar'
     import Textarea from 'primevue/textarea'
+
 
     import {useStore} from "../../store/store"
     import {mapWritableState} from 'pinia'
@@ -164,12 +171,11 @@
                 this.addNewTask(this.newTask)
 
                 this.resetForm()
-
-
+                this.showSuccess()
                 this.isDisplayModal = false;
             },
 
-            resetForm(){
+            resetForm() {
                 this.taskTitle = ''
                 this.taskDescription = ''
                 this.taskDate = null
@@ -178,11 +184,16 @@
 
             openModal() {
                 this.isDisplayModal = true;
+                console.log(this.$toast)
             },
 
-            closeModal(){
+            closeModal() {
                 this.resetForm()
-            }
+            },
+
+            showSuccess() {
+                this.$toast.add({severity: 'success', summary: '', detail: 'Задача успешно добавлена', life: 3000});
+            },
 
         },
     }
@@ -191,9 +202,22 @@
 <style scoped>
     .calendar-item {
         width: calc(90% / 7);
+        user-select: none;
     }
 
     .task-title {
         width: 150px;
+    }
+
+    .btn{
+        width: 1.5rem;
+        height: 1.5rem;
+
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 100%;
+        background: #00a803;
+        cursor: pointer;
     }
 </style>

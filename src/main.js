@@ -8,9 +8,16 @@ import App from './App.vue';
 import PrimeVue from 'primevue/config';
 import {createPinia} from "pinia";
 import Tooltip from 'primevue/tooltip';
+import router from './router'
+
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App);
 
+app.use(router)
+app.component('Toast', Toast)
+app.use(ToastService)
 app.directive('tooltip', Tooltip);
 app.use(PrimeVue);
 app.use(createPinia())

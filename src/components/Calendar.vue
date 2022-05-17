@@ -2,14 +2,18 @@
 
 
     <div class="card">
-        <div class="choose-section flex">
+        <div class="flex justify-content-between align-items-center h-auto">
+
+            <main-menu />
+
+        <div class="flex justify-content-end pr-5">
             <calendar-select-month/>
             <calendar-select-year/>
         </div>
 
+        </div>
         <calendar-day-week/>
         <calendar-day/>
-
     </div>
 </template>
 
@@ -18,9 +22,10 @@
     import CalendarSelectYear from "@/components/CalendarSelectYear"
     import CalendarDay from "@/components/CalendarDay"
     import CalendarDayWeek from "@/components/CalendarDayWeek"
+    import MainMenu from './MainMenu'
 
     export default {
-        components: {CalendarDay, CalendarDayWeek, CalendarSelectMonth, CalendarSelectYear},
+        components: {CalendarDay, CalendarDayWeek, CalendarSelectMonth, CalendarSelectYear, MainMenu},
     }
 </script>
 
@@ -28,6 +33,6 @@
     .card {
         width: 80%;
         margin: auto;
-        padding-top: 50px;
+        padding-top: 20px;
     }
 </style>

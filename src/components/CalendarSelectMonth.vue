@@ -47,13 +47,13 @@
 
 <style scoped>
     .choose-section__month {
-        width: 20rem;
+        /*width: 180px;*/
     }
     .choose-section__month-text {
         width: 7rem;
     }
     .choose-btn {
-        margin: 0 25px;
+        margin: 0 12px;
         border: none;
         background: none;
         cursor: pointer;
