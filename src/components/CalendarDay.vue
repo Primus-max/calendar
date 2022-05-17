@@ -31,7 +31,7 @@
                 <h3>Новая задача</h3>
             </template>
 
-            <form @click.prevent>
+            <form @submit.prevent>
                 <div class="flex flex-column p-input-filled w-11">
 
                         <span class="flex mb-3">
@@ -88,7 +88,8 @@
 
             <template #footer>
                 <Button label="отменить" icon="pi pi-times" class="p-button-text"/>
-                <Button label="записать" icon="pi pi-check" class="p-button-success"/>
+                <Button @click="createNewTask" type="submit" label="записать" icon="pi pi-check"
+                        class="p-button-success"/>
             </template>
 
         </Dialog>
@@ -107,12 +108,12 @@
 
     import {useStore} from "../../store/store"
     import {mapWritableState} from 'pinia'
-    import { mapState } from 'pinia'
+    import {mapState} from 'pinia'
 
 
     export default {
         components: {Button, Dialog, InputText, Textarea, Calendar},
-        props:['day'],
+        props: ['day'],
 
         data() {
             return {
@@ -122,6 +123,7 @@
                 taskTime: null,
                 isDisplayModal: false,
                 daysMonth: [],
+                newTask: {}
             }
         },
         mounted() {
@@ -130,10 +132,11 @@
         watch: {
             currentDate() {
                 this.getFirstDayInWeek()
-            }
+            },
+
         },
         computed: {
-            ...mapWritableState(useStore, ['currentDate']),
+            ...mapWritableState(useStore, ['currentDate', 'taskStore']),
             ...mapState(useStore, ['addNewTask'])
         },
 
@@ -151,24 +154,26 @@
                 }
             },
 
-            // getClickedDay(event){
-            //     this.daysMonth.find(d => {
-            //         if (event.type==='click'){
-            //             console.log(d)
-            //         }
-            //
-            //     })
-            // },
+            createNewTask() {
+                this.newTask = {
+                    title: this.taskTitle,
+                    description: this.taskDescription,
+                    date: this.taskDate,
+                    time: this.taskTime.toLocaleTimeString('ru-Ru')
+                }
+                this.addNewTask(this.newTask)
 
-            openModal(event) {
-                this.isDisplayModal = true;
-                // this.getClickedDay(event)
-                console.log(this.addNewTask())
+                this.taskTitle = ''
+                this.taskDescription = ''
+                this.taskDate = null
+                this.taskTime = null
+
+                this.isDisplayModal = false;
             },
-            // closeModal() {
-            //     this.isDisplayModal = false;
-            // },
 
+            openModal() {
+                this.isDisplayModal = true;
+            },
 
         },
     }

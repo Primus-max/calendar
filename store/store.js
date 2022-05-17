@@ -6,20 +6,23 @@ export const useStore = defineStore('storeId', {
         return {
             // all these properties will have their type inferred automatically
             currentDate: new Date(),
-            taskDB: []
+            taskStore: []
         }
     },
     actions: {
         addNewTask(task) {
             const newTask = {
-                1:2,
-                3:2,
+                title: task.title,
+                description: task.description,
+                date: task.date,
+                time: task.time
                 // title: task.title,
                 // description: task.description,
                 // date: task.date,
                 // time: task.time
             }
-            state.taskDB.push(newTask)
+            this.taskStore.push(newTask)
+            console.log(this.taskStore)
         }
     }
 })
