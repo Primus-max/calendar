@@ -6,7 +6,7 @@ import Calendar from '@/components/Calendar'
 
 const routes = [
     {
-        path: '/',
+        path: '/calendar',
         name: 'Calendar',
         component: Calendar
 
