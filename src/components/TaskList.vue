@@ -3,10 +3,11 @@
 <div>
     <Dialog class="p-dialog w-10"
             v-model:visible="isDisplayModal"
-            maximizable="true"
+            :maximizable="true"
             :modal="true"
             :dismissableMask="true"
     >
+
         <template #header>
             <h3>Список задач</h3>
         </template>

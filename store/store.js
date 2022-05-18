@@ -6,7 +6,16 @@ export const useStore = defineStore('storeId', {
         return {
             // all these properties will have their type inferred automatically
             currentDate: new Date(),
-            taskStore: []
+            taskStore: [
+                {
+                    title: 'Забрать ребенка из садика',
+                    description: 'После работы заехать и забрать ребенка из садика, у нас девочка'
+                },
+                {
+                    title: 'Выбросить мусор',
+                    description: 'Взять гребанный мусорный пакет и выбросить его нафиг'
+                }
+            ]
         }
     },
     actions: {

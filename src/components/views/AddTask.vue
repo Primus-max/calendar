@@ -116,6 +116,7 @@
         methods: {
             createNewTask() {
                 this.newTask = {
+                    id: Symbol,
                     title: this.taskTitle,
                     description: this.taskDescription,
                     date: this.taskDate,
