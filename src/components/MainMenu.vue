@@ -13,16 +13,28 @@
                 items: [
                     {
                         label: 'задачи',
-                        items: [{
-                            label: 'добавить',
-                            icon: 'pi pi-fw pi-plus',
-                            to: '/addtask',
-                            command:() => {console.log('work')}
-                        },
+                        items: [
+                            {
+                                label: 'список задач',
+                                icon: 'pi pi-fw pi-list',
+                                to: '/tasklist',
+                                command: () => {
+                                    console.log('work')
+                                }
+                            },
+                            {
+                                label: 'добавить',
+                                icon: 'pi pi-fw pi-plus',
+                                to: '/addtask',
+                                command: () => {
+                                    console.log('work')
+                                }
+                            },
                             {
                                 label: 'удалить',
                                 icon: 'pi pi-fw pi-trash',
-                            }]
+                            }
+                        ]
                     },
                     {
                         label: 'настройки',

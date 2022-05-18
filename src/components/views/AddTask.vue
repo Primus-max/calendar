@@ -1,5 +1,4 @@
 <template>
-    <h1>СТРАНИЦА ДОБАВЛЕНИЯ ЗАДАЧИ</h1>
     <div class="add-task-modal">
         <Dialog
                 v-model:visible="isDisplayModal"
@@ -87,6 +86,11 @@
     import Calendar from 'primevue/calendar'
     import Textarea from 'primevue/textarea'
 
+
+    import {useStore} from "../../../store/store"
+    import {mapWritableState} from 'pinia'
+    import {mapState} from 'pinia'
+
     export default {
         components: {Button, Dialog, InputText, Textarea, Calendar},
 
@@ -102,8 +106,12 @@
         },
         watch: {
             isDisplayModal() {
-                this.$router.push('./')
+                this.$router.push('./calendar')
             }
+        },
+        computed: {
+            ...mapWritableState(useStore, ['currentDate', 'taskStore']),
+            ...mapState(useStore, ['addNewTask'])
         },
         methods: {
             createNewTask() {
@@ -126,6 +134,12 @@
 
             closeModal() {
                 this.resetForm()
+            },
+            resetForm() {
+                this.taskTitle = ''
+                this.taskDescription = ''
+                this.taskDate = null
+                this.taskTime = null
             },
 
             showSuccess() {
