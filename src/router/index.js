@@ -1,11 +1,20 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import AddTask from '@/components/views/AddTask.vue'
+import Calendar from '@/components/Calendar'
 
 
 
 const routes = [
     {
         path: '/',
-        name: 'Calendar'
+        name: 'Calendar',
+        component: Calendar
+
+    },
+    {
+        path: '/addtask',
+        name: 'AddTask',
+        component: () => import('@/components/views/AddTask.vue')
     },
 
     // {

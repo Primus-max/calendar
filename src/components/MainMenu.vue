@@ -16,7 +16,8 @@
                         items: [{
                             label: 'добавить',
                             icon: 'pi pi-fw pi-plus',
-                            command: () => {}
+                            to: '/addtask',
+                            command:() => {console.log('work')}
                         },
                             {
                                 label: 'удалить',
