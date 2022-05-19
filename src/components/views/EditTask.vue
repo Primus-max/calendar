@@ -69,7 +69,7 @@
 
 
             <template #footer>
-                <Button label="отчистить" icon="pi pi-times" class="p-button-text"/>
+                <Button @click="closeModal" label="отменить" icon="pi pi-times" class="p-button-text"/>
                 <Button @click="saveEditedTask" type="submit" label="записать" icon="pi pi-check"
                         class="p-button-success"/>
             </template>
@@ -79,7 +79,9 @@
     <Toast baseZIndex="10" />
 </template>
 
+
 <script>
+
     import Button from 'primevue/button'
     import Dialog from 'primevue/dialog'
     import InputText from 'primevue/inputtext'
@@ -116,7 +118,7 @@
 
         methods: {
             saveEditedTask(){
-                this.rewriteTask()
+                this.editTask()
 
                 this.resetForm()
                 this.showSuccess()
@@ -124,7 +126,7 @@
                 console.log(this.isDisplayModal)
             },
 
-            rewriteTask() {
+            editTask() {
                 const idTaskToClick = this.$route.params.id.replace(/\:/gi, '')
                 return this.taskStore.filter(task => {
 
@@ -140,11 +142,9 @@
             openModal() {
                 this.isDisplayModal = true;
             },
-
-            // closeModal() {
-            //     this.$router.push('./')
-            //     // this.resetForm()
-            // },
+            closeModal() {
+                this.isDisplayModal = false
+            },
             resetForm() {
                 this.taskTitle = ''
                 this.taskDescription = ''

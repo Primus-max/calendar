@@ -51,7 +51,6 @@ export const useStore = defineStore('storeId', {
                 // time: task.time
             }
             this.taskStore.push(newTask)
-            console.log(this.taskStore)
         }
     }
 })

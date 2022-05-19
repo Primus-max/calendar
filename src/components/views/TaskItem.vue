@@ -27,7 +27,7 @@
 
 
     <Panel
-            v-for="(task, idx) in this.taskStore"
+            v-for="(task, idx) in this.newTaskStore"
             :key="task.id"
             :header="task.title"
             v-model:collapsed="task.id"
@@ -54,7 +54,7 @@
                     <span class="pi pi-pencil text-green-500"></span>
                 </Button>
 
-                <Button class="p-panel-header-icon p-link mr-2 p-button-danger"
+                <Button @click="removeTask(task.id)" class="p-panel-header-icon p-link mr-2 p-button-danger"
                         v-tooltip.top="'Удалить'"
                 >
                     <span class="pi pi-times text-red-500"></span>
@@ -82,25 +82,39 @@
     import Button from 'primevue/button'
     import Panel from 'primevue/panel'
 
-
     import {useStore} from "../../../store/store"
-    import {mapState} from 'pinia'
-
+    import {mapWritableState} from 'pinia'
 
     export default {
         components: {Card, Button, Panel},
 
         data() {
-            return {}
+            return {
+                newTaskStore: []
+            }
+        },
+        // watch() {
+        //     this.newTaskStore()
+        // },
+        mounted() {
+            this.newTaskStore = this.taskStore
         },
 
         computed: {
-            ...mapState(useStore, ['taskStore'])
+            ...mapWritableState(useStore, ['taskStore'])
         },
         methods: {
             editTask(id) {
                 this.$router.push(`/edittask/:${id}`)
             },
+
+            removeTask(id) {
+              this.newTaskStore.map((task, i) => {
+                    if (task.id === id) {
+                         this.newTaskStore.splice(i, 1)
+                    }
+                })
+            }
         }
 
     }
