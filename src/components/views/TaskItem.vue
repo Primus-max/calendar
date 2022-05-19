@@ -28,30 +28,37 @@
 
     <Panel
             v-for="(task, idx) in this.taskStore"
-            :key="idx"
+            :key="task.id"
             :header="task.title"
-            v-model:collapsed="isCollapsed"
-            :toggleable="true"
-            class="relative"
-
+            v-model:collapsed="task.id"
+            class="transition-duration-3000"
     >
         <template #icons>
 
-            <div class="flex absolute left-100">
-                <button class="p-panel-header-icon p-link mr-2 flex">
-                    <span class="pi pi-cog"></span>
+            <div class="flex">
+
+                <button class="p-panel-header-icon p-link mr-2 flex"
+                        v-tooltip.top="'Редактировать'"
+                >
+                    <span class="pi pi-pencil"></span>
                 </button>
 
-                <button class="p-panel-header-icon p-link mr-2 flex" @click="test(idx)">
-                    <span class="pi pi-pencil"></span>
+                <button class="p-panel-header-icon p-link mr-2 flex"
+                        v-tooltip.top="'Удалить'"
+                >
+                    <span class="pi pi-times"></span>
                 </button>
-                <button class="p-panel-header-icon p-link mr-2 flex" @click="test(idx)">
-                    <span class="pi pi-pencil"></span>
+
+                <button class="p-panel-header-icon p-link mr-2 flex" @click="task.id = !task.id">
+                    <span class="pi pi-plus"
+                          :class="{'pi-minus': !task.id}"
+                          v-tooltip.top="'Открыть'"
+                    >
+                    </span>
                 </button>
             </div>
-
         </template>
-        <p>
+        <p class="flex transition-duration-3000">
             {{task.description}}
         </p>
 
@@ -84,8 +91,8 @@
             ...mapState(useStore, ['taskStore'])
         },
         methods: {
-            test(idx) {
-
+            test(id) {
+                console.log(id)
             }
 
         }
@@ -94,6 +101,8 @@
 </script>
 
 <style scoped>
-
+.trans{
+    transition: 5000ms;
+}
 
 </style>

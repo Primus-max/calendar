@@ -8,10 +8,12 @@ export const useStore = defineStore('storeId', {
             currentDate: new Date(),
             taskStore: [
                 {
+                    id: 23434,
                     title: 'Забрать ребенка из садика',
                     description: 'После работы заехать и забрать ребенка из садика, у нас девочка'
                 },
                 {
+                    id: 'ei-334-4',
                     title: 'Выбросить мусор',
                     description: 'Взять гребанный мусорный пакет и выбросить его нафиг'
                 }
