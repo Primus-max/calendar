@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import AddTask from '@/components/views/AddTask.vue'
 import Calendar from '@/components/Calendar'
 import TaskList from "@/components/TaskList";
+import EditTask from "@/components/views/EditTask";
 
 
 
@@ -10,7 +11,6 @@ const routes = [
         path: '/calendar',
         name: 'Calendar',
         component: Calendar
-
     },
     {
         path: '/addtask',
@@ -22,7 +22,11 @@ const routes = [
         name: 'TaskList',
         component: () => import('@/components/TaskList.vue')
     },
-
+    {
+        path: '/edittask/:id',
+        name: 'EditTask',
+        component: () => import('@/components/views/EditTask.vue')
+    },
 
     // {
     //     path: '/login',

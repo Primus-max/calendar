@@ -10,7 +10,7 @@
         >
 
             <template #header>
-                <h3>Новая задача</h3>
+                <h3>Редактировать задачу</h3>
             </template>
 
             <form @submit.prevent>
@@ -69,14 +69,14 @@
 
 
             <template #footer>
-                <Button @click="closeModal" label="отчистить" icon="pi pi-times" class="p-button-text"/>
-                <Button @click="createNewTask" type="submit" label="записать" icon="pi pi-check"
+                <Button label="отчистить" icon="pi pi-times" class="p-button-text"/>
+                <Button @click="saveEditedTask" type="submit" label="записать" icon="pi pi-check"
                         class="p-button-success"/>
             </template>
 
         </Dialog>
     </div>
-    <Toast/>
+    <Toast baseZIndex="10" />
 </template>
 
 <script>
@@ -106,36 +106,45 @@
         },
         watch: {
             isDisplayModal() {
-                this.$router.push('./')
+                this.$router.push('/tasklist')
             }
         },
         computed: {
             ...mapWritableState(useStore, ['currentDate', 'taskStore']),
             ...mapState(useStore, ['addNewTask'])
         },
+
         methods: {
-            createNewTask() {
-                this.newTask = {
-                    id: Symbol,
-                    title: this.taskTitle,
-                    description: this.taskDescription,
-                    date: this.taskDate,
-                    time: this.taskTime.toLocaleTimeString('ru-Ru')
-                }
-                this.addNewTask(this.newTask)
+            saveEditedTask(){
+                this.rewriteTask()
 
                 this.resetForm()
                 this.showSuccess()
                 this.isDisplayModal = false;
-            },
-            openModal() {
-                this.isDisplayModal = true;
-                console.log(this.$toast)
+                console.log(this.isDisplayModal)
             },
 
-            closeModal() {
-                this.resetForm()
+            rewriteTask() {
+                const idTaskToClick = this.$route.params.id.replace(/\:/gi, '')
+                return this.taskStore.filter(task => {
+
+                    if (idTaskToClick === task.id) {
+                        task.title = this.taskTitle
+                        task.description = this.taskDescription
+                        task.date = this.taskDate
+                        task.time = this.taskTime
+                    }
+                })
             },
+
+            openModal() {
+                this.isDisplayModal = true;
+            },
+
+            // closeModal() {
+            //     this.$router.push('./')
+            //     // this.resetForm()
+            // },
             resetForm() {
                 this.taskTitle = ''
                 this.taskDescription = ''
@@ -144,8 +153,26 @@
             },
 
             showSuccess() {
-                this.$toast.add({severity: 'success', summary: '', detail: 'Задача успешно добавлена', life: 3000});
+                this.$toast.add({severity: 'success', summary: '', detail: 'Задача успешно перезаписана', life: 3000});
             },
+
+            getTaskDataFromId() {
+                const idTaskToClick = this.$route.params.id.replace(/\:/gi, '')
+                return this.taskStore.filter(task => {
+
+                    if (idTaskToClick === task.id) {
+                        this.taskTitle = task.title
+                        this.taskDescription = task.description
+                        this.taskDate = task.date
+                        this.taskTime = task.time
+                    }
+                })
+            }
+        },
+
+        mounted() {
+            console.log(this.$router)
+            this.getTaskDataFromId()
         }
 
     }
