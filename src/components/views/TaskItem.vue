@@ -26,54 +26,53 @@
     <!--    </Accordion>-->
 
 
-    <Panel
-            v-for="(task, idx) in this.newTaskStore"
-            :key="task.id"
-            :header="task.title"
-            v-model:collapsed="task.id"
+        <Panel
+                v-for="(task, idx) in this.newTaskStore"
+                :key="task.id"
+                :header="task.title"
+                v-model:collapsed="task.id"
+                class="list-item"
+        >
+            <template #icons>
 
-    >
-        <template #icons>
+                <div class="flex">
 
-            <div class="flex">
-
-                <Button class="p-panel-header-icon p-link mr-2 p-button-info"
-
-                >
+                    <Button class="p-panel-header-icon p-link mr-2 p-button-info">
                     <span class="pi pi-pause text-blue-500"
                           v-tooltip.top="'Остановить'"
                     >
 
                     </span>
-                </Button>
+                    </Button>
 
-                <Button class="p-panel-header-icon p-link mr-2 p-button-success"
-                        v-tooltip.top="'Редактировать'"
-                        @click="editTask(task.id)"
-                >
-                    <span class="pi pi-pencil text-green-500"></span>
-                </Button>
+                    <Button class="p-panel-header-icon p-link mr-2 p-button-success"
+                            v-tooltip.top="'Редактировать'"
+                            @click="editTask(task.id)"
+                    >
+                        <span class="pi pi-pencil text-green-500"></span>
+                    </Button>
 
-                <Button @click="removeTask(task.id)" class="p-panel-header-icon p-link mr-2 p-button-danger"
-                        v-tooltip.top="'Удалить'"
-                >
-                    <span class="pi pi-times text-red-500"></span>
-                </Button>
+                    <Button @click="removeTask(task.id)" class="p-panel-header-icon p-link mr-2 p-button-danger"
+                            v-tooltip.top="'Удалить'"
+                    >
+                        <span class="pi pi-trash text-red-500"></span>
+                    </Button>
 
-                <Button class="p-panel-header-icon p-link mr-2" @click="task.id = !task.id">
+                    <Button class="p-panel-header-icon p-link mr-2" @click="task.id = !task.id">
                     <span class="pi pi-chevron-left"
                           :class="{'pi-chevron-down': !task.id}"
                           v-tooltip.top="task.id ? 'Открыть': 'Закрыть'"
                     >
                     </span>
-                </Button>
-            </div>
-        </template>
-        <p class="flex transition-duration-3000">
-            {{task.description}}
-        </p>
+                    </Button>
+                </div>
+            </template>
 
-    </Panel>
+            <p class="flex transition-duration-3000">
+                {{task.description}}
+            </p>
+        </Panel>
+
 
 </template>
 
@@ -109,9 +108,9 @@
             },
 
             removeTask(id) {
-              this.newTaskStore.map((task, i) => {
+                this.newTaskStore.map((task, i) => {
                     if (task.id === id) {
-                         this.newTaskStore.splice(i, 1)
+                        this.newTaskStore.splice(i, 1)
                     }
                 })
             }
@@ -121,6 +120,5 @@
 </script>
 
 <style scoped>
-
 
 </style>
