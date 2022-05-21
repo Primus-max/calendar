@@ -5,7 +5,7 @@
             :maximizable="true"
             :modal="true"
             :dismissableMask="true"
-            baseZIndex="9"
+            :baseZIndex="9"
     >
 
         <template #header>
@@ -13,11 +13,11 @@
             <tab-menu-task-list />
         </template>
 
-        <task-item/>
+        <task-item :getTaskLengthFromChild="getTaskLengthFromChild"/>
 
-        <div class="p-paginatoror">
-            <Paginator :rows="10" :totalRecords="totalItemsCount"></Paginator>
-        </div>
+
+            <Paginator :rows="4" :totalRecords="totalRecords" ></Paginator>
+
 <!--        <template #footer>-->
 <!--            <Button label="No" icon="pi pi-times" class="p-button-text"/>-->
 <!--            <Button label="Yes" icon="pi pi-check" autofocus />-->
@@ -33,22 +33,37 @@
     import Dialog from 'primevue/dialog'
     import TaskItem from "@/components/views/TaskItem"
     import Paginator from 'primevue/paginator'
-    import TabMenuTaskList from "@/components/views/TabMenuTaskList";
+    import TabMenuTaskList from "@/components/views/TabMenuTaskList"
+
+    import _ from 'lodash'
+
+    import {useStore} from "../../store/store"
+    import {mapState} from 'pinia'
 
     export default {
         components: {TaskItem, Dialog, Paginator, TabMenuTaskList},
 
         data(){
             return{
-                isDisplayModal: true
+                isDisplayModal: true,
+
+                totalRecords: null,
             }
         },
+
         watch: {
             isDisplayModal() {
                 this.$router.push('./')
             }
         },
+        methods:{
+            getTaskLengthFromChild(taskLength){
 
+                 this.totalRecords = taskLength.length
+                    //_.chunk(taskLength, 4)
+                console.log('it is length taskArray', )
+            },
+        }
     }
 </script>
 
