@@ -5,7 +5,6 @@
             :maximizable="true"
             :modal="true"
             :dismissableMask="true"
-            :baseZIndex="9"
     >
 
         <template #header>

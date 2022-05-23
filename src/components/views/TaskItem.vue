@@ -68,77 +68,57 @@
     <!--            </Column>-->
     <!--        </TreeTable>-->
     <!--    </div>-->
+    <Toast />
 
 
-    <!--    <div class="flex w-57rem m-auto">-->
-    <!--        <ul class="task-list flex flex-column align-items-start">-->
-    <!--            <li class="task-item flex flex-column p-paginator-pages w-12 border-1 border-blue-100 border-round-md mb-1"-->
-    <!--                v-for="(task, idx) in newTaskStore"-->
-    <!--                :key="task.id"-->
-    <!--                :value="task.id"-->
-    <!--            >-->
-    <!--                <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center">-->
-    <!--                    &lt;!&ndash;                    <Button class="p-panel-header-icon  mr-2" @click="task.id = !task.id">&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                        <span class="pi pi-chevron-left"&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                              :class="{'pi-chevron-down': !task.id}"&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                              v-tooltip.top="task.id ? 'Открыть': 'Закрыть'"&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                        >&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                         </span>&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                    </Button>&ndash;&gt;-->
-    <!--                    <p class="flex w-9 h-4rem align-items-center pl-4 m-0"-->
-
-    <!--                       @click="onChangeDisplay(task.id)"-->
-
-
-    <!--                       v-tooltip.top="'Открыть'"-->
-    <!--                    >-->
-    <!--                        {{ task.id }}-->
-    <!--                        {{ task.title }}-->
-    <!--                    </p>-->
-    <!--                    <p   class="flex w-3 justify-content-end m-0 ">-->
-    <!--                        <Button @click="test"/>-->
-    <!--                    </p>-->
-
-    <!--                </div>-->
-    <!--                <p class="pl-6" ref="test" style="display: initial">-->
-    <!--                    {{ task.description }}-->
-    <!--                </p>-->
-    <!--            </li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
-
-
-    <div class="">
-        <ul class="">
-            <li class="" v-for="(task, idx) in newTaskStore" :key="task.id">
-                <div class="">
-                    <p class="">
-                        {{ task.id }}
-                        Сдеалть кастомный элемент
+    <div class="flex task-list__wrapper m-auto">
+        <ul class="task-list flex flex-column align-items-start">
+            <li class="task-item flex flex-column p-paginator-pages w-12 border-1 border-blue-100 border-round-md mb-1"
+                v-for="(task, idx) in newTaskStore"
+                :key="task.id"
+                :value="task.id"
+            >
+                <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center pr-2">
+                    <p class="flex w-9 h-4rem align-items-center pl-4 m-0"
+                       @click="showDescriptionTask(task.id)"
+                       v-tooltip.top="task.isShow ?'Закрыть': 'Открыть'"
+                    >
+                        {{ task.title }}
                     </p>
-                    <p сlass="">
-                        <Button @click="test(task.id)"/>
-                    </p>
+
+                    <span class=" flex w-3 justify-content-end m-0 ">
+                        <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-text"
+                                @click="editTask(task.id)"
+                                v-tooltip.top="'Редактировать'"
+                        />
+                        <Button icon="pi pi-share-alt" class="p-button-rounded p-button-info p-button-text"
+                                v-tooltip.top="'Озадачить'"
+                        />
+                        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                                @click="removeTask(task.id)"
+                                v-tooltip.top="'Удалить'"
+                        />
+                    </span>
                 </div>
-                <p ref="test" v-show="task.isShow" class="item-description">
-                    Сделать полностью кастомный элемент без сторонних библиотек
+                <p class="pl-5" v-show="task.isShow">
+                    <span class="flex" style="width: 70%">{{ task.description }}</span>
                 </p>
             </li>
         </ul>
     </div>
 
-
-    <div>
-        <p>Люк я твой отец</p>
-        <p ref="jedi" class="item ">I is Jedi</p>
-        <button @click="onChangeDisplay">Kill the Jedi DED!</button>
-    </div>
+    <Toast :baseZIndex="10"/>
 </template>
 
 <script>
     import Card from 'primevue/card'
     import Button from 'primevue/button'
     import Panel from 'primevue/panel'
+
+    import Toast from 'primevue/toast'
+
+
+    import SpeedDial from 'primevue/speeddial'
 
 
     import TreeTable from 'primevue/treetable'
@@ -149,14 +129,10 @@
 
     export default {
         props: ['getTaskLengthFromChild'],
-        components: {Card, Button, Panel, TreeTable, Column},
+        components: {Card, Button, Panel, TreeTable, Column, SpeedDial, Toast},
 
         data() {
             return {
-                isActivex: false,
-                nodes: null,
-                ID: null,
-
                 newTaskStore: null,
             }
         },
@@ -164,113 +140,53 @@
         created() {
             this.newTaskStore = this.taskStore
             this.getTaskLengthFromChild(this.newTaskStore)
-
-
-            // if (!this.$refs.myRef) {
-            //     console.log("This doesn't exist yet!");
-            // }
-            //
-            // this.$nextTick(() => {
-            //     if (this.$refs.myRef) {
-            //         console.log("Now it does!");
-            //     }
-            // })
-
-            //
-            // let files = [];
-            // for(let i = 0; i < this.newTaskStore.length; i++) {
-            //     let node = {
-            //         key: i,
-            //         data: {
-            //             name: this.newTaskStore[i].title,
-            //             date: this.newTaskStore[i].date,
-            //             icon: 'pi pi-pencil'
-            //         },
-            //         children: [
-            //             {
-            //                 key: i + ' - 0',
-            //                 data: {
-            //                     name: this.newTaskStore[i].description,
-            //                     isChildren: true
-            //                 }
-            //             }
-            //         ]
-            //     };
-            //
-            //     files.push(node);
-            // }
-            //
-            // this.nodes = files;
-            // console.log('created', !this.nodes[0].children[0].data.isChildren )
         },
 
         computed: {
             ...mapWritableState(useStore, ['taskStore']),
 
-            classObject() {
-                return {
-                    active: true,
-                }
-            }
         },
 
         methods: {
-            keelItWithFire() {
-                this.$refs.jedi.style.display = "none";
-            },
-
-
             editTask(id) {
                 this.$router.push(`/edittask/:${id}`)
             },
-
-            onChangeDisplay() {
-
-                console.log(this.test())
-            },
-
-            test(taskId) {
+            showDescriptionTask(taskId) {
                 this.newTaskStore.map(task => {
-                     if(task.id === taskId && !task.isShow){
-                         task.isShow = true
-                     }else if(task.id === taskId && task.isShow){
-                         task.isShow = false
+                    if (task.id === taskId && !task.isShow) {
+                        task.isShow = true
+                    } else if (task.id === taskId && task.isShow) {
+                        task.isShow = false
                     }
-
                 })
-            }
+                console.log(this.$toast.style)
+            },
+            removeTask(id) {
+                this.newTaskStore.map((task, i) => {
+                    if (task.id === id) {
+                        this.newTaskStore.splice(i, 1)
+                    }
+                })
+            },
+            showSuccess() {
+                this.$toast.add({severity: 'success', summary: '', detail: 'Задача успешно перезаписана', life: 3000,});
+            },
         },
 
 
-        removeTask(id) {
-            this.newTaskStore.map((task, i) => {
-                if (task.id === id) {
-                    this.newTaskStore.splice(i, 1)
-                }
-            })
-        }
+
     }
 </script>
 
 <style scoped>
+    .task-list__wrapper {
+        width: 90%;
+    }
+
     .task-list {
+        width: 100%;
         padding: 0;
-        list-style: none;
     }
 
-    .active {
-        color: red;
-    }
 
-    .item {
-        display: flex;
-        width: 100px;
-        border: 1px solid black;
-    }
-
-    .item-description {
-        display: flex;
-        transition: 5s;
-        transition-duration: 5s;
-    }
 </style>
