@@ -1,76 +1,4 @@
 <template>
-    <!--    <div>-->
-    <!--        <Panel-->
-    <!--                v-for="(task, idx) in this.newTaskStore"-->
-    <!--                :key="task.id"-->
-    <!--                :header="task.title"-->
-    <!--                v-model:collapsed="task.id"-->
-    <!--                class="p-paginator-pages"-->
-    <!--                :newTaskstore="newTaskStore"-->
-
-    <!--        >-->
-    <!--            <template #icons>-->
-
-    <!--                <div class="flex">-->
-    <!--                    <Button class="p-panel-header-icon p-link mr-2 p-button-info">-->
-    <!--                    <span class="pi pi-pause text-blue-500"-->
-    <!--                          v-tooltip.top="'Остановить'"-->
-    <!--                    >-->
-
-    <!--                    </span>-->
-    <!--                    </Button>-->
-
-    <!--                    <Button class="p-panel-header-icon p-link mr-2 p-button-success"-->
-    <!--                            v-tooltip.top="'Редактировать'"-->
-    <!--                            @click="editTask(task.id)"-->
-    <!--                    >-->
-    <!--                        <span class="pi pi-pencil text-green-500"></span>-->
-    <!--                    </Button>-->
-
-    <!--                    <Button @click="removeTask(task.id)" class="p-panel-header-icon p-link mr-2 p-button-danger"-->
-    <!--                            v-tooltip.top="'Удалить'"-->
-    <!--                    >-->
-    <!--                        <span class="pi pi-trash text-red-500"></span>-->
-    <!--                    </Button>-->
-
-    <!--                    <Button class="p-panel-header-icon p-link mr-2" @click="task.id = !task.id">-->
-    <!--                    <span class="pi pi-chevron-left"-->
-    <!--                          :class="{'pi-chevron-down': !task.id}"-->
-    <!--                          v-tooltip.top="task.id ? 'Открыть': 'Закрыть'"-->
-    <!--                    >-->
-    <!--                    </span>-->
-    <!--                    </Button>-->
-    <!--                </div>-->
-    <!--            </template>-->
-
-    <!--            <p class="flex transition-duration-3000">-->
-    <!--                {{task.description}}-->
-    <!--            </p>-->
-    <!--        </Panel>-->
-    <!--    </div>-->
-
-
-    <!--    <div>-->
-    <!--        <TreeTable :value="nodes" :paginator="true" :rows="4" sortMode="multiple" class="flex flex-column">-->
-    <!--            <Column field="name" header="Задача" :expander="true" :sortable="true"></Column>-->
-    <!--&lt;!&ndash;            <Column field="size" header="Size" :sortable="true"></Column>&ndash;&gt;-->
-    <!--            <Column field="date" header="Дата" :sortable="true" class="w-2"></Column>-->
-    <!--            <Column  headerStyle="width: 10rem" headerClass="text-center" bodyClass="text-center">-->
-    <!--                <template #header >-->
-    <!--                    <Button type="button" icon="pi pi-cog"></Button>-->
-    <!--                </template>-->
-
-    <!--                <template #body >-->
-    <!--                    <Button type="button" icon="pi pi-search" class="p-button-success" style="margin-right: .5em"></Button>-->
-    <!--                    <Button type="button" icon="pi pi-pencil" class="p-button-warning"></Button>-->
-    <!--                </template>-->
-
-    <!--            </Column>-->
-    <!--        </TreeTable>-->
-    <!--    </div>-->
-    <Toast />
-
-
     <div class="flex task-list__wrapper m-auto">
         <ul class="task-list flex flex-column align-items-start">
             <li class="task-item flex flex-column p-paginator-pages w-12 border-1 border-blue-100 border-round-md mb-1"
@@ -95,7 +23,7 @@
                                 v-tooltip.top="'Озадачить'"
                         />
                         <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
-                                @click="removeTask(task.id)"
+                                @click="confirmDelDialog(task.id)"
                                 v-tooltip.top="'Удалить'"
                         />
                     </span>
@@ -107,32 +35,53 @@
         </ul>
     </div>
 
-    <Toast :baseZIndex="10"/>
+    <Toast :baseZIndex="10"></Toast>
+    <ConfirmDialog></ConfirmDialog>
+
+    <Dialog
+            class="flex w-3"
+            header="Удалить задачу"
+            v-model:visible="displayConfirmDelDialog"
+            :modal="true"
+            :dismissableMask="true"
+    >
+        <div class="flex flex-column w-5 pt-2 pl-4 h-5">
+            <div class="field-radiobutton  flex justify-content-between align-content-center">
+                <label for="self">У себя</label>
+                <RadioButton id="self" name="city" value="self" />
+            </div>
+            <div class="field-radiobutton flex justify-content-between align-content-center">
+                <label for="all">У всех</label>
+                <RadioButton id="all" name="city" value="all"  autofocus/>
+            </div>
+        </div>
+        <template #footer>
+            <Button label="отмена" icon="pi pi-check" class="p-button-info p-button-text" iconPos="left"/>
+            <Button label="удалить" icon="pi pi-times" class="p-button-warning p-button-text" iconPos="left"
+                    @click="removeTask(task.id)"
+            />
+        </template>
+    </Dialog>
+
 </template>
 
 <script>
-    import Card from 'primevue/card'
     import Button from 'primevue/button'
-    import Panel from 'primevue/panel'
+    import Dialog from 'primevue/dialog'
+    import RadioButton from 'primevue/radiobutton'
 
     import Toast from 'primevue/toast'
-
-
-    import SpeedDial from 'primevue/speeddial'
-
-
-    import TreeTable from 'primevue/treetable'
-    import Column from 'primevue/column'
 
     import {useStore} from "../../../store/store"
     import {mapWritableState} from 'pinia'
 
     export default {
         props: ['getTaskLengthFromChild'],
-        components: {Card, Button, Panel, TreeTable, Column, SpeedDial, Toast},
+        components: {Button,  Dialog, Toast, RadioButton},
 
         data() {
             return {
+                displayConfirmDelDialog: false,
                 newTaskStore: null,
             }
         },
@@ -161,7 +110,11 @@
                 })
                 console.log(this.$toast.style)
             },
+            confirmDelDialog(){
+                this.displayConfirmDelDialog = true
+            },
             removeTask(id) {
+                this.displayConfirmDelDialog = true
                 this.newTaskStore.map((task, i) => {
                     if (task.id === id) {
                         this.newTaskStore.splice(i, 1)
@@ -172,9 +125,6 @@
                 this.$toast.add({severity: 'success', summary: '', detail: 'Задача успешно перезаписана', life: 3000,});
             },
         },
-
-
-
     }
 </script>
 

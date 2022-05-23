@@ -13,12 +13,14 @@ import router from './router'
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 
+
 const app = createApp(App);
 
 app.use(router)
 app.component('Toast', Toast)
 app.use(ToastService)
-app.directive('tooltip', Tooltip);
+app.directive('tooltip', Tooltip)
 app.use(PrimeVue);
 app.use(createPinia())
-app.mount('#app');
+app.mount('#app')
+

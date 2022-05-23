@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Dialog class="p-dialog w-10"
+    <Dialog class="p-dialog w-10 z-1"
             v-model:visible="isDisplayModal"
             :maximizable="true"
             :modal="true"
