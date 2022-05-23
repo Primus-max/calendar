@@ -70,43 +70,68 @@
     <!--    </div>-->
 
 
-    <div class="flex w-57rem m-auto">
-        <ul class="task-list flex flex-column align-items-start">
-            <li class="task-item flex flex-column p-paginator-pages w-12 border-1 border-blue-100 border-round-md mb-1"
-                v-for="(task, idx) in newTaskStore"
-                :key="task.id"
-            >
-                <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center">
-<!--                    <Button class="p-panel-header-icon  mr-2" @click="task.id = !task.id">-->
-<!--                        <span class="pi pi-chevron-left"-->
-<!--                              :class="{'pi-chevron-down': !task.id}"-->
-<!--                              v-tooltip.top="task.id ? 'Открыть': 'Закрыть'"-->
-<!--                        >-->
-<!--                         </span>-->
-<!--                    </Button>-->
-                    <p class="flex w-9 h-4rem align-items-center pl-4 m-0"
+    <!--    <div class="flex w-57rem m-auto">-->
+    <!--        <ul class="task-list flex flex-column align-items-start">-->
+    <!--            <li class="task-item flex flex-column p-paginator-pages w-12 border-1 border-blue-100 border-round-md mb-1"-->
+    <!--                v-for="(task, idx) in newTaskStore"-->
+    <!--                :key="task.id"-->
+    <!--                :value="task.id"-->
+    <!--            >-->
+    <!--                <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center">-->
+    <!--                    &lt;!&ndash;                    <Button class="p-panel-header-icon  mr-2" @click="task.id = !task.id">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <span class="pi pi-chevron-left"&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                              :class="{'pi-chevron-down': !task.id}"&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                              v-tooltip.top="task.id ? 'Открыть': 'Закрыть'"&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        >&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                         </span>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </Button>&ndash;&gt;-->
+    <!--                    <p class="flex w-9 h-4rem align-items-center pl-4 m-0"-->
 
-                       @click="task.id = !task.id"
-                       v-show="!task.id"
-                       v-tooltip.top="'Открыть'"
-                    >
+    <!--                       @click="onChangeDisplay(task.id)"-->
+
+
+    <!--                       v-tooltip.top="'Открыть'"-->
+    <!--                    >-->
+    <!--                        {{ task.id }}-->
+    <!--                        {{ task.title }}-->
+    <!--                    </p>-->
+    <!--                    <p   class="flex w-3 justify-content-end m-0 ">-->
+    <!--                        <Button @click="test"/>-->
+    <!--                    </p>-->
+
+    <!--                </div>-->
+    <!--                <p class="pl-6" ref="test" style="display: initial">-->
+    <!--                    {{ task.description }}-->
+    <!--                </p>-->
+    <!--            </li>-->
+    <!--        </ul>-->
+    <!--    </div>-->
+
+
+    <div class="">
+        <ul class="">
+            <li class="" v-for="(task, idx) in newTaskStore" :key="task.id">
+                <div class="">
+                    <p class="">
                         {{ task.id }}
-                        {{ task.title }}
+                        Сдеалть кастомный элемент
                     </p>
-                    <p class="flex w-3 justify-content-end m-0">
-                        <Button/>
+                    <p сlass="">
+                        <Button @click="test(task.id)"/>
                     </p>
-
                 </div>
-                <p class="pl-6"
-                   :class="{
-                    'isDisplay': isOpenDetailTask
-                   }"
-                >
-                    {{ task.description }}
+                <p ref="test" v-show="task.isShow" class="item-description">
+                    Сделать полностью кастомный элемент без сторонних библиотек
                 </p>
             </li>
         </ul>
+    </div>
+
+
+    <div>
+        <p>Люк я твой отец</p>
+        <p ref="jedi" class="item ">I is Jedi</p>
+        <button @click="onChangeDisplay">Kill the Jedi DED!</button>
     </div>
 </template>
 
@@ -128,21 +153,28 @@
 
         data() {
             return {
-                isOpenDetailTask: false,
+                isActivex: false,
                 nodes: null,
+                ID: null,
 
                 newTaskStore: null,
             }
         },
-        // watch() {
-        //     this.newTaskStore()
-        // },
-        mounted() {
 
-        },
         created() {
             this.newTaskStore = this.taskStore
             this.getTaskLengthFromChild(this.newTaskStore)
+
+
+            // if (!this.$refs.myRef) {
+            //     console.log("This doesn't exist yet!");
+            // }
+            //
+            // this.$nextTick(() => {
+            //     if (this.$refs.myRef) {
+            //         console.log("Now it does!");
+            //     }
+            // })
 
             //
             // let files = [];
@@ -171,23 +203,52 @@
             // this.nodes = files;
             // console.log('created', !this.nodes[0].children[0].data.isChildren )
         },
+
         computed: {
-            ...mapWritableState(useStore, ['taskStore'])
+            ...mapWritableState(useStore, ['taskStore']),
+
+            classObject() {
+                return {
+                    active: true,
+                }
+            }
         },
+
         methods: {
+            keelItWithFire() {
+                this.$refs.jedi.style.display = "none";
+            },
+
+
             editTask(id) {
                 this.$router.push(`/edittask/:${id}`)
             },
 
-            removeTask(id) {
-                this.newTaskStore.map((task, i) => {
-                    if (task.id === id) {
-                        this.newTaskStore.splice(i, 1)
+            onChangeDisplay() {
+
+                console.log(this.test())
+            },
+
+            test(taskId) {
+                this.newTaskStore.map(task => {
+                     if(task.id === taskId && !task.isShow){
+                         task.isShow = true
+                     }else if(task.id === taskId && task.isShow){
+                         task.isShow = false
                     }
+
                 })
             }
-        }
+        },
 
+
+        removeTask(id) {
+            this.newTaskStore.map((task, i) => {
+                if (task.id === id) {
+                    this.newTaskStore.splice(i, 1)
+                }
+            })
+        }
     }
 </script>
 
@@ -196,7 +257,20 @@
         padding: 0;
         list-style: none;
     }
-    .isDisplay{
-        display: none;
+
+    .active {
+        color: red;
+    }
+
+    .item {
+        display: flex;
+        width: 100px;
+        border: 1px solid black;
+    }
+
+    .item-description {
+        display: flex;
+        transition: 5s;
+        transition-duration: 5s;
     }
 </style>

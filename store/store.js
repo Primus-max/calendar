@@ -12,21 +12,24 @@ export const useStore = defineStore('storeId', {
                     title: 'Забрать ребенка из садика',
                     description: 'После работы заехать и забрать ребенка из садика, у нас девочка',
                     date: '22/05/22',
-                    time: '12:30'
+                    time: '12:30',
+                    isShow: false
                 },
                 {
                     id: 'ei-334-4',
                     title: 'Выбросить мусор',
                     description: 'Взять гребанный мусорный пакет и выбросить его нафиг',
                     date: '23/05/22',
-                    time: '13:00'
+                    time: '13:00',
+                    isShow: false
                 },
                 {
                     id: 'ee-45456-454',
                     title: 'Покормить кота',
                     description: 'Найти каго-нибуль кота и покормить его',
                     date: '22/05/22',
-                    time: '12:30'
+                    time: '12:30',
+                    isShow: false
                 },
                 {
                     id: 'ee-3432-21',
