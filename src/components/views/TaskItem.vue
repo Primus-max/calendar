@@ -46,9 +46,9 @@
                 <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center pr-2">
                     <p class="flex w-9 h-4rem align-items-center pl-4 m-0"
                        @click="showDescriptionTask"
-                       v-tooltip.top="this.task[0].isShow ?'Закрыть': 'Открыть'"
+                       v-tooltip.top="this.task.isShow ?'Закрыть': 'Открыть'"
                     >
-                        {{ this.task[0].title }}
+                        {{ this.task.title }}
                     </p>
 
                     <span class=" flex w-3 justify-content-end m-0 ">
@@ -69,8 +69,8 @@
                         />
                     </span>
                 </div>
-                <p class="pl-5" v-show="this.task[0].isShow">
-                    <span class="flex" style="width: 70%">{{ this.task[0].description }}</span>
+                <p class="pl-5" v-show="this.task.isShow">
+                    <span class="flex" style="width: 70%">{{ this.task.description }}</span>
                 </p>
             </li>
         </ul>
@@ -138,14 +138,14 @@
         },
         methods: {
             editTask() {
-                this.$router.push(`/edittask/:${this.task[0].id}`)
+                this.$router.push(`/edittask/:${this.task.id}`)
             },
             showDescriptionTask() {
                 for (let i in this.cloneTaskStore) {
                     this.cloneTaskStore[i].map(task => {
-                        if (task.id === this.task[0].id && !task.isShow) {
+                        if (task.id === this.task.id && !task.isShow) {
                             task.isShow = true
-                        } else if (task.id === this.task[0].id && task.isShow) {
+                        } else  {
                             task.isShow = false
                         }
                     })
@@ -154,7 +154,7 @@
             },
             confirmDelDialog() {
                 this.displayConfirmDelDialog = true
-                this.currentTaskId = this.task[0].id
+                this.currentTaskId = this.task.id
             },
             removeTask() {
                 this.displayConfirmDelDialog = true

@@ -13,19 +13,24 @@
             </template>
 
             <task-item
-                    v-for="(task, i) in this.cloneTaskStore"
+                    v-for="(task, i) in this.cloneTaskStore[page]"
                     :key="task.id"
                     :task="task"
                     :cloneTaskStore="this.cloneTaskStore"
             />
 
 
-            <Nagibator :paginationList="this.cloneTaskStore"></Nagibator>
+            <Nagibator
+                    :paginationList="this.cloneTaskStore"
+                    @prevPage="prevPage"
+                    @nextPage="nextPage"
+            />
 
-<!--                    <template #footer>-->
-<!--                        <Button @click="test" label="No" icon="pi pi-times" class="p-button-text"/>-->
-<!--                        <Button label="Yes" icon="pi pi-check" autofocus />-->
-<!--                    </template>-->
+
+            <!--                    <template #footer>-->
+            <!--                        <Button @click="test" label="No" icon="pi pi-times" class="p-button-text"/>-->
+            <!--                        <Button label="Yes" icon="pi pi-check" autofocus />-->
+            <!--                    </template>-->
         </Dialog>
     </div>
 
@@ -45,12 +50,13 @@
     import _ from "lodash";
 
     export default {
-        components: {TaskItem, Dialog,  TabMenuTaskList, Nagibator},
+        components: {TaskItem, Dialog, TabMenuTaskList, Nagibator},
 
         data() {
             return {
                 isDisplayModal: true,
-                totalRecords: null,
+                currentPage: null,
+                page: 0,
                 cloneTaskStore: [],
             }
         },
@@ -67,11 +73,22 @@
                 this.$router.push('./')
             }
         },
-        // methods: {
-        //     test(){
-        //         console.log(this.cloneTaskStore)
-        //     }
-        // }
+        methods: {
+            prevPage(){
+                if(this.page === 0 ){
+                    return
+                }
+                this.page -= 1
+                console.log(this.page)
+            },
+            nextPage(){
+                if(this.page === this.cloneTaskStore.length - 1){
+                    return
+                }
+                this.page += 1
+                console.log(this.page)
+            }
+        }
     }
 </script>
 
