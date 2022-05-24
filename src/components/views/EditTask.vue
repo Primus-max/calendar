@@ -76,7 +76,7 @@
 
         </Dialog>
     </div>
-    <Toast />
+    <Toast :baseZIndex="11"></Toast>
 
 </template>
 
