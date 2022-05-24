@@ -4,9 +4,14 @@
                 @click="$emit('prevPage')"
         />
         <ul class="flex w-4  justify-content-center p-0">
-            <li class="flex border-1 border-blue-200 mr-3 cursor-pointer text-3xl"
+            <li class="flex  mr-3 cursor-pointer text-2xl"
                 v-for="(item, idx) in this.paginationList">
-                <a>{{ idx + 1}}</a>
+                <a
+                        :class="{'text-primary': page === idx}"
+                        @click="$emit('changePage', idx)"
+                >
+                    {{ idx + 1}}
+                </a>
             </li>
         </ul>
         <Button icon="pi pi-chevron-right"
@@ -28,11 +33,13 @@
                 type: Array,
                 required: true
             },
+            page:{
+                type: Number
+            }
         },
         mixins: [mixinPagination],
         data() {
             return {
-                page: 0,
                 pageCount: null,
                 taskOnPage: 4,
             }

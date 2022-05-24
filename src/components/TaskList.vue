@@ -22,8 +22,10 @@
 
             <Nagibator
                     :paginationList="this.cloneTaskStore"
+                    :page="page"
                     @prevPage="prevPage"
                     @nextPage="nextPage"
+                    @changePage="changePage"
             />
 
 
@@ -79,14 +81,15 @@
                     return
                 }
                 this.page -= 1
-                console.log(this.page)
             },
             nextPage(){
                 if(this.page === this.cloneTaskStore.length - 1){
                     return
                 }
                 this.page += 1
-                console.log(this.page)
+            },
+            changePage(idx){
+                this.page = idx
             }
         }
     }
