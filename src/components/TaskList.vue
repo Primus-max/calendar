@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <Dialog class="p-dialog w-10 z-1"
+        <Dialog class="p-dialog w-10 z-1 dialog h-max"
                 v-model:visible="isDisplayModal"
                 :maximizable="true"
                 :modal="true"
@@ -14,12 +14,14 @@
                 <tab-menu-task-list/>
             </template>
 
+
             <task-item
                     v-for="(task, i) in this.cloneTaskStore[page]"
                     :key="task.id"
                     :task="task"
                     :cloneTaskStore="this.cloneTaskStore"
             />
+
 
             <Nagibator
                     :paginationList="this.cloneTaskStore"
@@ -115,6 +117,9 @@
 </script>
 
 <style scoped>
+.dialog{
+    height: 600px;
+}
 
 </style>
 

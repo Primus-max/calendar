@@ -1,6 +1,7 @@
 <template>
     <div class="flex w-auto nagibator-wrapper align-items-center justify-content-center">
         <Button icon="pi pi-chevron-left" class="p-button-rounded active:text-black-alpha-90 p-button-text"
+                :disabled="page === 0"
                 @click="$emit('prevPage')"
         />
         <ul class="flex w-2 justify-content-center p-0">
@@ -18,6 +19,7 @@
             </li>
         </ul>
         <Button icon="pi pi-chevron-right" class="p-button-rounded active:text-black-alpha-90 p-button-text"
+                :disabled="page === this.paginationList.length - 1"
                 @click="$emit('nextPage')"
         />
     </div>
@@ -25,7 +27,7 @@
 
 <script>
     import Button from 'primevue/button'
-    import mixinPagination from '@/mixins/mixin.paginator.js'
+
     // import _ from 'lodash'
     // import {useStore} from "../../../store/store"
     // import {mapWritableState} from 'pinia'
@@ -40,7 +42,7 @@
                 type: Number
             }
         },
-        mixins: [mixinPagination],
+
         data() {
             return {
                 pageCount: null,

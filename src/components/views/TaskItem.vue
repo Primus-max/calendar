@@ -1,46 +1,8 @@
 <template>
-    <!--    <div class="flex task-list__wrapper m-auto">-->
-    <!--        <ul class="task-list flex flex-column align-items-start">-->
-    <!--            <li class="task-item flex flex-column w-12 border-1 border-blue-100 border-round-md mb-1"-->
-    <!--                v-for="(task, idx) in newTaskStore"-->
-    <!--                :key="task.id"-->
-    <!--                :taskId="task.id"-->
-    <!--            >-->
-    <!--                <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center pr-2">-->
-    <!--                    <p class="flex w-9 h-4rem align-items-center pl-4 m-0"-->
-    <!--                       @click="showDescriptionTask(task.id)"-->
-    <!--                       v-tooltip.top="task.isShow ?'Закрыть': 'Открыть'"-->
-    <!--                    >-->
-    <!--                        {{ task.title }}-->
-    <!--                    </p>-->
-
-    <!--                    <span class=" flex w-3 justify-content-end m-0 ">-->
-    <!--                        <Button icon="pi pi-pause" class="p-button-rounded p-button-warning p-button-text"-->
-    <!--                                @click=""-->
-    <!--                                v-tooltip.top="'Остановать'"-->
-    <!--                        />-->
-    <!--                        <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-text"-->
-    <!--                                @click="editTask(task.id)"-->
-    <!--                                v-tooltip.top="'Редактировать'"-->
-    <!--                        />-->
-    <!--                        <Button icon="pi pi-share-alt" class="p-button-rounded p-button-info p-button-text"-->
-    <!--                                v-tooltip.top="'Озадачить'"-->
-    <!--                        />-->
-    <!--                        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"-->
-    <!--                                @click="confirmDelDialog(task.id)"-->
-    <!--                                v-tooltip.top="'Удалить'"-->
-    <!--                        />-->
-    <!--                    </span>-->
-    <!--                </div>-->
-    <!--                <p class="pl-5" v-show="task.isShow">-->
-    <!--                    <span class="flex" style="width: 70%">{{ task.description }}</span>-->
-    <!--                </p>-->
-    <!--            </li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
 
 
     <div class="flex task-list__wrapper m-auto">
+
         <ul class="task-list flex flex-column align-items-start m-1">
             <li class="task-item flex flex-column w-12 border-1 border-blue-100 border-round-md ">
                 <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center pr-2">
@@ -69,9 +31,11 @@
                         />
                     </span>
                 </div>
-                <p class="pl-5" v-show="this.task.isShow">
-                    <span class="flex" style="width: 70%">{{ this.task.description }}</span>
-                </p>
+                <transition name="task-item">
+                    <p class="pl-5 item" v-show="this.task.isShow">
+                        <span class="flex" style="width: 70%">{{ this.task.description }}</span>
+                    </p>
+                </transition>
             </li>
         </ul>
     </div>
@@ -145,7 +109,7 @@
                     this.cloneTaskStore[i].map(task => {
                         if (task.id === this.task.id && !task.isShow) {
                             task.isShow = true
-                        } else  {
+                        } else {
                             task.isShow = false
                         }
                     })
@@ -189,6 +153,19 @@
     .task-list {
         width: 100%;
         padding: 0;
+    }
+
+
+
+    .task-item-enter-active,
+    .task-item-leave-active {
+        transition: all 500ms ease;
+
+    }
+    .task-item-enter-from,
+    .task-item-leave-to {
+        opacity: 0;
+        transform: translateZ(0);
     }
 
 
