@@ -1,11 +1,13 @@
 <template>
     <div>
+
         <Dialog class="p-dialog w-10 z-1"
                 v-model:visible="isDisplayModal"
                 :maximizable="true"
                 :modal="true"
                 :dismissableMask="true"
         >
+
 
             <template #header>
                 <h3>Список задач</h3>
@@ -18,7 +20,6 @@
                     :task="task"
                     :cloneTaskStore="this.cloneTaskStore"
             />
-
 
             <Nagibator
                     :paginationList="this.cloneTaskStore"
@@ -33,7 +34,9 @@
             <!--                        <Button @click="test" label="No" icon="pi pi-times" class="p-button-text"/>-->
             <!--                        <Button label="Yes" icon="pi pi-check" autofocus />-->
             <!--                    </template>-->
+
         </Dialog>
+
     </div>
 
 
@@ -42,6 +45,8 @@
 <script>
     import Dialog from 'primevue/dialog'
     import TaskItem from "@/components/views/TaskItem"
+    import Button from 'primevue/button'
+
 
     import TabMenuTaskList from "@/components/views/TabMenuTaskList"
     import Nagibator from "@/components/views/Nagibator"
@@ -52,7 +57,7 @@
     import _ from "lodash";
 
     export default {
-        components: {TaskItem, Dialog, TabMenuTaskList, Nagibator},
+        components: {TaskItem, Dialog, TabMenuTaskList, Nagibator, Button},
 
         data() {
             return {
@@ -76,20 +81,34 @@
             }
         },
         methods: {
+            pushRouterTask(el){
+
+                // if(+`${this.$route.path}?page=${el}` === this.cloneTaskStore.length - 1){
+                //     console.log('it work')
+                // }
+
+
+               this.$router.push(`${this.$route.path}?page=${el + 1}`)
+               // console.log(`${this.$route.path}?page=${el}`)
+            },
             prevPage(){
                 if(this.page === 0 ){
                     return
                 }
                 this.page -= 1
+                this.pushRouterTask(this.page )
             },
             nextPage(){
                 if(this.page === this.cloneTaskStore.length - 1){
                     return
                 }
                 this.page += 1
+                this.pushRouterTask(this.page )
             },
             changePage(idx){
                 this.page = idx
+                this.pushRouterTask(this.page )
+                console.log(this.$route.query)
             }
         }
     }
