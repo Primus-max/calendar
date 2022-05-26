@@ -1,10 +1,10 @@
 <template>
 
 
-    <div class="flex task-list__wrapper m-auto">
+    <div class="task-item__overlay">
+        <ul class="task-item flex flex-column align-items-start m-0">
 
-        <ul class="task-list flex flex-column align-items-start m-1">
-            <li class="task-item flex flex-column w-12 border-1 border-blue-100 border-round-md ">
+            <li class="task-item flex flex-column w-12 border-1 border-blue-100 border-round-md m-1">
                 <div class="flex border-1 border-blue-100 bg-blue-50 align-items-center pr-2">
                     <p class="flex w-9 h-4rem align-items-center pl-4 m-0"
                        @click="showDescriptionTask"
@@ -31,12 +31,13 @@
                         />
                     </span>
                 </div>
-                <transition name="task-item">
+                <transition name="task">
                     <p class="pl-5 item" v-show="this.task.isShow">
-                        <span class="flex" style="width: 70%">{{ this.task.description }}</span>
+                        {{ this.task.description }}
                     </p>
                 </transition>
             </li>
+
         </ul>
     </div>
 
@@ -146,27 +147,26 @@
 </script>
 
 <style scoped>
-    .task-list__wrapper {
+    .task-item__overlay {
         width: 90%;
+        margin: 0 auto;
     }
 
-    .task-list {
+    .task-item {
         width: 100%;
         padding: 0;
     }
 
 
+    /*.task-enter-active,*/
+    /*.task-leave-active {*/
+    /*    transition: all .5s;*/
+    /*}*/
 
-    .task-item-enter-active,
-    .task-item-leave-active {
-        transition: all 500ms ease;
-
-    }
-    .task-item-enter-from,
-    .task-item-leave-to {
-        opacity: 0;
-        transform: translateZ(0);
-    }
+    /*.task-enter,*/
+    /*.task-leave-to {*/
+    /*   */
+    /*}*/
 
 
 </style>
