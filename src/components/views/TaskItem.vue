@@ -151,22 +151,8 @@
         width: 90%;
         margin: 0 auto;
     }
-
     .task-item {
         width: 100%;
         padding: 0;
     }
-
-
-    /*.task-enter-active,*/
-    /*.task-leave-active {*/
-    /*    transition: all .5s;*/
-    /*}*/
-
-    /*.task-enter,*/
-    /*.task-leave-to {*/
-    /*   */
-    /*}*/
-
-
 </style>

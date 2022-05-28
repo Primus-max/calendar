@@ -31,12 +31,6 @@
                     @changePage="changePage"
             />
 
-
-            <!--                    <template #footer>-->
-            <!--                        <Button @click="test" label="No" icon="pi pi-times" class="p-button-text"/>-->
-            <!--                        <Button label="Yes" icon="pi pi-check" autofocus />-->
-            <!--                    </template>-->
-
         </Dialog>
     </div>
 
@@ -84,27 +78,27 @@
     import Nagibator from "@/components/views/Nagibator"
 
 
-    import {useStore} from "../../store/store"
+    import {useStore} from "../store/store"
     import {mapState, mapWritableState} from 'pinia'
     import _ from "lodash";
+    import axios from "axios";
 
     export default {
         components: {TaskItem, Dialog, TabMenuTaskList, Nagibator, Button},
 
         data() {
             return {
+                tasksStore: [],
+                cloneTaskStore: [],
                 isDisplayModal: true,
                 currentPage: null,
                 page: 0,
-                cloneTaskStore: [],
             }
         },
-        created() {
-            this.cloneTaskStore = _.chunk(this.taskStore, 4)
-        },
-        computed: {
-            ...mapWritableState(useStore, ['taskStore']),
 
+        async mounted() {
+            await this.getTaskListFromApi()
+            this.cloneTaskStore = _.chunk(this.tasksStore, 4)
         },
 
         watch: {
@@ -113,15 +107,9 @@
             }
         },
         methods: {
+
             pushRouterTask(el) {
-
-                // if(+`${this.$route.path}?page=${el}` === this.cloneTaskStore.length - 1){
-                //     console.log('it work')
-                // }
-
-
                 this.$router.push(`${this.$route.path}?page=${el + 1}`)
-                // console.log(`${this.$route.path}?page=${el}`)
             },
             prevPage() {
                 if (this.page === 0) {
@@ -140,8 +128,17 @@
             changePage(idx) {
                 this.page = idx
                 this.pushRouterTask(this.page)
-                console.log(this.$route.query)
+            },
+
+            async getTaskListFromApi() {
+                try {
+                    await axios.get('http://localhost:3000/tasksStore')
+                        .then(response => this.tasksStore = response.data)
+                } catch (e) {
+                    console.log(e)
+                }
             }
+
         }
     }
 </script>
