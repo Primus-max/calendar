@@ -24,8 +24,16 @@
     import CalendarDayWeek from "@/components/CalendarDayWeek"
     import MainMenu from './MainMenu'
 
+
+
     export default {
         components: {CalendarDay, CalendarDayWeek, CalendarSelectMonth, CalendarSelectYear, MainMenu},
+        data(){
+            return{
+
+            }
+        },
+
     }
 </script>
 

@@ -92,7 +92,7 @@
 
 
 
-    import {useStore} from "../../../store/store"
+    import {useStore} from "../../store/store"
     import {mapWritableState} from 'pinia'
     import {mapState} from 'pinia'
 

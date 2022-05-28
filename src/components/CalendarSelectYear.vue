@@ -10,7 +10,7 @@
 
 <script>
     import {mapWritableState} from 'pinia'
-    import {useStore} from "../../store/store"
+    import {useStore} from "../store/store"
 
     export default {
         computed: {
